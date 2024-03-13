@@ -37,6 +37,10 @@ export default defineConfig({
     () => import('@adonisjs/lucid/database_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('@adonisjs/inertia/inertia_provider'),
+    {
+      file: () => import('@adminjs/adonis/adminjs_provider'),
+      environment: ['web'],
+    }
   ],
 
   /*
