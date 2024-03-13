@@ -18,15 +18,8 @@ const adminjsConfig: AdminJSProviderConfig = {
       {
         resource: new LucidResource(Guest, 'mysql'),
         options: {
-          listProperties: [
-            'id',
-            'name',
-            'email',
-            'fullName',
-            'isComing',
-            'isAccompagnated',
-            'allergies',
-          ],
+          navigation: null,
+          listProperties: ['id', 'email', 'fullName', 'isComing', 'isAccompagnated', 'allergies'],
           editProperties: ['email', 'fullName', 'isComing', 'isAccompagnated', 'allergies'],
         },
       },
