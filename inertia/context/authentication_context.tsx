@@ -1,9 +1,9 @@
-import { useAuthentication as useAuth } from '../hooks/use_authentication'
+import { useAuthentication as useAuth } from '~/hooks/use_authentication'
 import { FC, createContext, useContext, useState } from 'react'
-import Guest from '../../app/models/guest'
+import Guest from '#models/guest'
 
 interface ContextType {
-  user: Guest
+  user?: Guest
   login: (_email: string) => void
   logout: () => void
 }

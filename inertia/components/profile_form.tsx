@@ -1,6 +1,6 @@
-import { useAuthentication } from '../context/authentication_context'
+import { useAuthentication } from '~/context/authentication_context'
 import { useState } from 'react'
-import Guest from '../../app/models/guest'
+import Guest from '~/../app/models/guest'
 
 const ProfileForm = () => {
   const { user } = useAuthentication()

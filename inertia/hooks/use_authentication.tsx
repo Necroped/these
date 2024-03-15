@@ -1,4 +1,4 @@
-import Guest from '../../app/models/guest'
+import Guest from '#models/guest'
 
 interface Options<T = undefined> {
   onSuccess?: (user?: T) => void

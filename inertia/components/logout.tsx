@@ -1,4 +1,4 @@
-import { useAuthentication } from '../context/authentication_context'
+import { useAuthentication } from '~/context/authentication_context'
 
 const Logout = () => {
   const { logout, user } = useAuthentication()
