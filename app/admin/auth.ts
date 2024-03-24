@@ -1,6 +1,6 @@
 import { DefaultAuthProvider, DefaultAuthenticatePayload } from 'adminjs'
 
-import componentLoader from './component_loader.js'
+import { componentLoader } from './component_loader.js'
 import env from '#start/env'
 
 /**
@@ -12,7 +12,7 @@ import env from '#start/env'
  * The default implementation below will let any in, so make sure to update it.
  */
 const authenticate = async ({ email, password }: DefaultAuthenticatePayload) => {
-  if (email === env.get('ADMINJS_USERNAME') && password === env.get('ADMINJS_USERNAME')) {
+  if (email === env.get('ADMINJS_USERNAME') && password === env.get('ADMINJS_PASSWORD')) {
     return Promise.resolve({ email })
   }
   return null

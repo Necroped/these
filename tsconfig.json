@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "rootDir": "./",
     "outDir": "./build",
+    "jsx": "react-jsx",
     "paths": {
       "#admin/*": ["./app/admin/*.js"],
       "#controllers/*": ["./app/controllers/*.js"],

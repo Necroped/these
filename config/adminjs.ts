@@ -1,14 +1,16 @@
 import { AdminJSProviderConfig, LucidResource } from '@adminjs/adonis'
 
-import componentLoader from '../app/admin/component_loader.js'
+import { componentLoader, Components } from '../app/admin/component_loader.js'
 import authProvider from '../app/admin/auth.js'
 import Guest from '#models/guest'
+import Event from '#models/event'
+import { HrefContext } from 'adminjs'
+import dbConfig from './database.js'
 
 const adminjsConfig: AdminJSProviderConfig = {
   adapter: {
     enabled: true,
   },
-
   adminjs: {
     rootPath: '/admin',
     loginPath: '/admin/login',
@@ -16,15 +18,92 @@ const adminjsConfig: AdminJSProviderConfig = {
     componentLoader,
     resources: [
       {
-        resource: new LucidResource(Guest, 'mysql'),
+        resource: new LucidResource(Guest, dbConfig.connection),
         options: {
           navigation: null,
-          listProperties: ['id', 'email', 'fullName', 'isComing', 'isAccompagnated', 'allergies'],
+          listProperties: [
+            'id',
+            'email',
+            'fullName',
+            'isComing',
+            'isAccompagnated',
+            'allergies',
+            'createdAt',
+            'updatedAt',
+          ],
+          showProperties: [
+            'email',
+            'fullName',
+            'isComing',
+            'isAccompagnated',
+            'allergies',
+            'createdAt',
+            'updatedAt',
+          ],
           editProperties: ['email', 'fullName', 'isComing', 'isAccompagnated', 'allergies'],
+          actions: {
+            email: {
+              showResourceActions: false,
+              actionType: 'bulk',
+              component: Components.SendEmailButton,
+              handler: (request: any, response: any, context: any) => context,
+            },
+          },
+        },
+      },
+      {
+        resource: new LucidResource(Event, dbConfig.connection),
+        options: {
+          href: (context: HrefContext) => context.h.showUrl('events', '1'),
+          listProperties: [
+            'text',
+            'location' /*,  'startTime' */ /*,  'endTime' */,
+            'createdAt',
+            'updatedAt',
+          ],
+          showProperties: [
+            'text',
+            'location' /*,  'startTime' */ /*,  'endTime' */,
+            'createdAt',
+            'updatedAt',
+          ],
+          editProperties: ['text', 'location' /*,  'startTime' */ /*,  'endTime' */],
+          navigation: null,
+          properties: {
+            text: {
+              type: 'richtext',
+            },
+          },
+          actions: {
+            list: {
+              isAccessible: true,
+              isVisible: true,
+              showFilter: false,
+            },
+            search: {
+              isAccessible: false,
+              isVisible: false,
+            },
+            filter: {
+              isAccessible: false,
+              isVisible: false,
+            },
+            new: {
+              isAccessible: false,
+              isVisible: false,
+            },
+            bulkDelete: {
+              isAccessible: false,
+              isVisible: false,
+            },
+            delete: {
+              isAccessible: false,
+              isVisible: false,
+            },
+          },
         },
       },
     ],
-    pages: {},
     locale: {
       availableLanguages: ['fr'],
       language: 'fr',
@@ -37,6 +116,7 @@ const adminjsConfig: AdminJSProviderConfig = {
             delete: 'Supprimer',
             bulkDelete: 'Tout supprimer',
             list: 'Liste',
+            email: 'Envoyer un email',
           },
           buttons: {
             save: 'Sauvegarder',
@@ -87,29 +167,32 @@ const adminjsConfig: AdminJSProviderConfig = {
             },
           },
           labels: {
-            navigation: 'Navigation',
-            pages: 'Pages',
-            selectedRecords: 'Selection ({{selected}})',
-            filters: 'Filtres',
-            adminVersion: 'Admin: {{version}}',
-            appVersion: 'App: {{version}}',
-            dashboard: 'Dashboard',
-            guests: 'Invités',
+            'events': 'Evenements',
+            'navigation': 'Navigation',
+            'pages': 'Pages',
+            'selectedRecords': 'Selection ({{selected}})',
+            'filters': 'Filtres',
+            'adminVersion': 'Admin: {{version}}',
+            'appVersion': 'App: {{version}}',
+            'dashboard': 'Dashboard',
+            'guests': 'Invités',
+            'isComing.true': 'OUI',
+            'isComing.false': 'NON',
+            'isAccompagnated.true': 'OUI',
+            'isAccompagnated.false': 'NON',
           },
           properties: {
-            'length': 'Longueur',
-            'from': 'De',
-            'to': 'A',
-            'isAdmin.true': 'admin',
-            'isAdmin.false': 'normalny',
-            'id': 'id',
-            'email': 'email',
-            'fullName': 'nom',
-            'isComing': 'vient',
-            'isAccompagnated': 'est accompagné',
-            'allergies': 'allergies',
-            'createdAt': 'inscrit le',
-            'updatedAt': 'modifié le',
+            length: 'Longueur',
+            from: 'De',
+            to: 'A',
+            id: 'id',
+            email: 'email',
+            fullName: 'nom',
+            isComing: 'vient',
+            isAccompagnated: 'est accompagné',
+            allergies: 'allergies',
+            createdAt: 'inscrit le',
+            updatedAt: 'modifié le',
           },
           messages: {
             successfullyBulkDeleted: 'Successfully removed {{count}} record',
@@ -137,6 +220,7 @@ const adminjsConfig: AdminJSProviderConfig = {
               'Resource of given id: {{resourceId}} does not have a record with id: {{recordId}} or you are not authorized to use it!',
             seeConsoleForMore: 'See development console for more details...',
             noActionComponent: 'You have to implement action component for your Action',
+
             noRecordsInResource: 'There are no records in this resource',
             noRecords: 'No records',
             confirmDelete: 'Do you really want to remove this item?',

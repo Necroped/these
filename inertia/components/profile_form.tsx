@@ -19,6 +19,10 @@ const ProfileForm = () => {
     setIsEdited(true)
   }
 
+  if (!currentUser) {
+    return null
+  }
+
   return (
     <>
       {isEdited && (

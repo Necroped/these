@@ -1,5 +1,6 @@
 import ReactDOMServer from 'react-dom/server'
 import { createInertiaApp } from '@inertiajs/react'
+import '@fontsource/darker-grotesque/800.css'
 
 export default function render(page: any) {
   return createInertiaApp({
